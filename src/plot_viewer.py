@@ -18,10 +18,11 @@ class PlotViewer:
     def add_plots(self, plots):
         self.plots.extend(plots)
 
-    def show(self):
+    def show(self, show_events=True):
         # Draw events
-        start_date = num_to_datetime(min(plot.x()[0] for plot in self.plots))
-        PlotEvents(plt).draw(start_date=start_date)
+        if show_events:
+            start_date = num_to_datetime(min(plot.x()[0] for plot in self.plots))
+            PlotEvents(plt).draw(start_date=start_date)
 
         # Draw plots
         ax2 = None

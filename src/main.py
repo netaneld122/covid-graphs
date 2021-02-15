@@ -104,5 +104,39 @@ def main():
     viewer.show()
 
 
+def get_population():
+    return {
+        '0-9':   1937676,
+        '10-19': 1505185,
+        '20-29': 1277634,
+        '30-39': 1186386,
+        '40-49': 1080768,
+        '50-59': 832687,
+        '60-69': 735380,
+        '70-79': 462148,
+        '80-89': 222547,
+        '90+':   50589,
+    }
+
+
+def vaccinated():
+    viewer = PlotViewer()
+
+    population = get_population()
+
+    plots = []
+    for age_group in expand_age_group('10+'):
+        plots.append(QuantifyLabel('({:0.2f}%)', Average(7, DeriveToDays(Multiply(100 / population[age_group], CsvColumnPlot(
+                path='vaccinated_by_age.csv',
+                column=f'{age_group} first dose',
+                label=age_group))))))
+
+    # viewer.add_plots(normalize_plots_to_date(datetime(2021, 1, 20), plots))
+    viewer.add_plots(plots)
+
+    viewer.show(False)
+
+
 if __name__ == '__main__':
-    main()
+    # main()
+    vaccinated()
