@@ -124,15 +124,17 @@ def vaccinated():
 
     population = get_population()
 
-    plots = []
     for age_group in expand_age_group('10+'):
-        plots.append(QuantifyLabel('({:0.2f}%)', Average(7, DeriveToDays(Multiply(100 / population[age_group], CsvColumnPlot(
+        viewer.add_plot(
+            QuantifyLabel('({:0.2f}%)', Average(7, DeriveToDays(Multiply(100 / population[age_group], CsvColumnPlot(
                 path='vaccinated_by_age.csv',
                 column=f'{age_group} first dose',
                 label=age_group))))))
 
-    # viewer.add_plots(normalize_plots_to_date(datetime(2021, 1, 20), plots))
-    viewer.add_plots(plots)
+    viewer.add_plot(QuantifyLabel('({:0.2f}%)', Average(7, Multiply(100 / sum(population.values()), CsvColumnPlot(
+            path='vaccinated.csv',
+            column='Vaccinated (daily)',
+            label='Average')))))
 
     viewer.show(False)
 
