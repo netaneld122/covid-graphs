@@ -56,6 +56,21 @@ def post_process_age_plots(ages, age_plots, should_group, should_normalize, mult
     return age_plots
 
 
+def get_population():
+    return {
+        '0-9':   1937676,
+        '10-19': 1505185,
+        '20-29': 1277634,
+        '30-39': 1186386,
+        '40-49': 1080768,
+        '50-59': 832687,
+        '60-69': 735380,
+        '70-79': 462148,
+        '80-89': 222547,
+        '90+':   50589,
+    }
+
+
 def main():
     viewer = PlotViewer()
 
@@ -69,6 +84,13 @@ def main():
             path='vaccinated.csv',
             column='Second dose population precentage',
             label='Dose #2'))))
+
+    population = get_population()
+    viewer.add_plot(QuantifyLabel(
+        '({:0.2f}%)', Multiply(7, Average(7, Multiply(100 / sum(population.values()), SeparateYAxis(CsvColumnPlot(
+            path='vaccinated.csv',
+            column='Vaccinated (daily)',
+            label='Dose #1 Weekly Pace')))))))
 
     # Severe Cases
     viewer.add_plot(QuantifyLabel('({:0.0f})', CsvColumnPlot(
@@ -104,21 +126,6 @@ def main():
     viewer.show()
 
 
-def get_population():
-    return {
-        '0-9':   1937676,
-        '10-19': 1505185,
-        '20-29': 1277634,
-        '30-39': 1186386,
-        '40-49': 1080768,
-        '50-59': 832687,
-        '60-69': 735380,
-        '70-79': 462148,
-        '80-89': 222547,
-        '90+':   50589,
-    }
-
-
 def vaccinated():
     viewer = PlotViewer()
 
@@ -140,5 +147,5 @@ def vaccinated():
 
 
 if __name__ == '__main__':
-    # main()
-    vaccinated()
+    main()
+    # vaccinated()
