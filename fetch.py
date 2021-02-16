@@ -70,8 +70,11 @@ def main():
     beep()
     prev = get_api_data()
     while True:
-        time.sleep(60)
-        current = get_api_data()
+        time.sleep(60 * 5)
+        try:
+            current = get_api_data()
+        except Exception:
+            pass
         if prev != current:
             print(f'Updated {current}')
             beep()
