@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from .csv_column_plot import CsvColumnPlot
-from .modifiers import Multiply, Average, OnlyFromDate, Group, DeriveToDays, SeparateYAxis, QuantifyLabel
+from .modifiers import Multiply, Average, OnlyFromDate, Group, DeriveToDays, SeparateYAxis, QuantifyLabel, ToRatio
 from .plot_viewer import PlotViewer
 from .plot_utils import normalize_plots_to_date
 
@@ -146,6 +146,27 @@ def vaccinated():
     viewer.show(False)
 
 
+def r():
+    viewer = PlotViewer()
+
+    # R
+    viewer.add_plot(QuantifyLabel('({:0.2f})', Average(7, ToRatio(Average(7, CsvColumnPlot(
+            path='hospitalized_and_infected.csv',
+            column='New infected',
+            label='R'))))))
+
+    import matplotlib.pyplot as plt
+    plt.axhline(y=1, color='r', alpha=0.5)
+
+    # Apply global modifiers
+    viewer.plots = [
+        OnlyFromDate(datetime(2020, 12, 10), plot) for plot in viewer.plots
+    ]
+
+    viewer.show(False)
+
+
 if __name__ == '__main__':
     main()
-    # vaccinated()
+    vaccinated()
+    r()

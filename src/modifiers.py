@@ -150,3 +150,20 @@ class QuantifyLabel(Modifier):
 
     def label(self):
         return self.plot.label() + ' ' + self.suffix_format.format(self.y()[-1])
+
+
+class ToRatio(Modifier):
+    def __init__(self, plot):
+        super().__init__(plot)
+
+        self._y = []
+        for i, y in enumerate(plot.y()):
+            if i == 0:
+                continue
+            self._y.append(y / plot.y()[i-1])
+
+    def y(self):
+        return self._y
+
+    def x(self):
+        return self.plot.x()[1:]
