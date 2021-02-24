@@ -32,6 +32,15 @@ class Multiply(Modifier):
         return self._y
 
 
+class Pow(Modifier):
+    def __init__(self, exp, plot):
+        super().__init__(plot)
+        self._y = [v ** exp for v in self.plot.y()]
+
+    def y(self):
+        return self._y
+
+
 class Average(Modifier):
     def __init__(self, window, plot):
         super().__init__(plot)
