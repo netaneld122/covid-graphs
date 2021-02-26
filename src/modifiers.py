@@ -116,11 +116,12 @@ class DeriveToDays(Modifier):
         for i, x in enumerate(plot.x()):
             if i == 0:
                 continue
+            d = plot.y()[i] - plot.y()[i-1]
             if date_utils.is_same_day(prev_x, x):
-                delta += plot.y()[i] - plot.y()[i-1]
+                delta += d
             else:
                 self._x.append(prev_x)
-                self._y.append(delta)
+                self._y.append(delta + d)
                 delta = 0
             prev_x = x
 
