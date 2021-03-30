@@ -153,7 +153,22 @@ def r():
     viewer.add_plot(QuantifyLabel('({:0.2f})', Average(7, Pow(4, ToRatio(Average(7, CsvColumnPlot(
             path='hospitalized_and_infected.csv',
             column='New infected',
-            label='R')))))))
+            label='R(infected)')))))))
+
+    viewer.add_plot(QuantifyLabel('({:0.2f})', Average(7, Pow(4, ToRatio(Average(7, CsvColumnPlot(
+            path='hospitalized_and_infected.csv',
+            column='New deaths',
+            label='R(dead)')))))))
+
+    viewer.add_plot(QuantifyLabel('({:0.2f})', Average(7, Pow(4, ToRatio(Average(7, CsvColumnPlot(
+            path='hospitalized_and_infected.csv',
+            column='New hosptialized',
+            label='R(hosp)')))))))
+
+    viewer.add_plot(QuantifyLabel('({:0.2f})', Average(7, Pow(4, ToRatio(Average(7, CsvColumnPlot(
+            path='hospitalized_and_infected.csv',
+            column='New serious',
+            label='R(severe)')))))))
 
     import matplotlib.pyplot as plt
     plt.axhline(y=1, color='r', alpha=0.5)
