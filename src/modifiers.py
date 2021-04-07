@@ -153,6 +153,21 @@ class AdjustForTests(Modifier):
         return self._y
 
 
+class Percentage(Modifier):
+    def __init__(self, nominator_plot, denominator_plot, label=None):
+        super().__init__(nominator_plot)
+        self._y = [y * 100 / denominator_plot.y()[i] for i, y in enumerate(nominator_plot.y())]
+        self._label = label
+
+    def y(self):
+        return self._y
+
+    def label(self):
+        if self._label:
+            return self._label
+        return super().label()
+
+
 class QuantifyLabel(Modifier):
     def __init__(self, suffix_format, plot):
         super().__init__(plot)
