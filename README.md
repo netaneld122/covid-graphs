@@ -1,4 +1,4 @@
-# israel_moh_covid_dashboard_data
+# COVID Graphs
 Data pulled from the Israeli Minsitry of Health's COVID-19 dashboard's API.
 
 ### How to generate a graph

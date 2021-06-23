@@ -208,7 +208,7 @@ def percentage():
 
 
 if __name__ == '__main__':
-    # main()
-    # vaccinated()
-    # r()
+    main()
+    vaccinated()
+    r()
     percentage()
