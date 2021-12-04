@@ -136,7 +136,7 @@ def vaccinated():
         viewer.add_plot(
             QuantifyLabel('({:0.2f}%)', Average(7, DeriveToDays(Multiply(100 / population[age_group], CsvColumnPlot(
                 path='vaccinated_by_age.csv',
-                column=f'{age_group} first dose',
+                column=f'{age_group} 1st dose',
                 label=age_group))))))
 
     viewer.add_plot(QuantifyLabel('({:0.2f}%)', Average(7, Multiply(100 / sum(population.values()), CsvColumnPlot(
@@ -194,7 +194,7 @@ def twenties_deaths():
 
     viewer.add_plot(QuantifyLabel('({:0.2f}%)', Multiply(100 / get_population()['20-29'], CsvColumnPlot(
             path='vaccinated_by_age.csv',
-            column='20-29 first dose',
+            column='20-29 1st dose',
             label='Vaccinated 20-29'))))
 
     # Apply global modifiers
@@ -226,8 +226,8 @@ def ages():
 
 
 if __name__ == '__main__':
-    #main()
-    #vaccinated()
-    #r()
-    #twenties_deaths()
+    main()
+    vaccinated()
+    r()
+    twenties_deaths()
     ages()

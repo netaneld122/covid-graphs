@@ -15,12 +15,18 @@ class CsvColumnPlot(Plot):
         else:
             self._label = column
 
-        reader = csv.reader(open(path))
+        reader = csv.reader(open(path, encoding='utf-8'))
 
         if should_skip_first_line:
             next(reader)
 
-        column_index = next(reader).index(column)
+        titles = next(reader)
+
+        # Normalize 90+ and 90-99
+        if column not in titles and column.replace('90+', '90-99') in titles:
+            column = column.replace('90+', '90-99')
+
+        column_index = titles.index(column)
 
         self.dates = []
         self.values = []
@@ -35,7 +41,8 @@ class CsvColumnPlot(Plot):
             self.dates.append(date_utils.datetime_to_num(date))
 
             # Record value
-            self.values.append(float(row[column_index]))
+            str_value = row[column_index]
+            self.values.append(0 if str_value == '' else float(str_value))
 
     def x(self):
         return self.dates
