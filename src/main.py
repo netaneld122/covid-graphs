@@ -2,7 +2,7 @@ from datetime import datetime
 
 from .csv_column_plot import CsvColumnPlot
 from .modifiers import Multiply, Average, OnlyFromDate, Group, DeriveToDays, SeparateYAxis, QuantifyLabel, ToRatio, Pow
-from .modifiers import Cumulate
+from .modifiers import Cumulate, Percentage
 from .plot_viewer import PlotViewer
 from .plot_utils import normalize_plots_to_date
 
@@ -205,6 +205,30 @@ def twenties_deaths():
     viewer.show(False)
 
 
+def percentage():
+    viewer = PlotViewer()
+
+    infected_column = CsvColumnPlot(
+            path='hospitalized_and_infected.csv',
+            column='New infected',
+            label='Infected')
+
+    tests_column = CsvColumnPlot(
+        path='hospitalized_and_infected.csv',
+        column='Tests for idenitifaction',
+        label='Tests')
+
+    # Percentage
+    viewer.add_plot(QuantifyLabel('({:0.1f}%)', Percentage(infected_column, tests_column, "Infected %")))
+
+    # Apply global modifiers
+    viewer.plots = [
+        OnlyFromDate(datetime(2020, 3, 1), plot) for plot in viewer.plots
+    ]
+
+    viewer.show(False)
+    
+
 def ages():
     viewer = PlotViewer()
 
@@ -230,4 +254,5 @@ if __name__ == '__main__':
     vaccinated()
     r()
     twenties_deaths()
+    percentage()
     ages()
