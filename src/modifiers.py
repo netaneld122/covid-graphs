@@ -41,6 +41,15 @@ class Pow(Modifier):
         return self._y
 
 
+class Cumulate(Modifier):
+    def __init__(self, plot):
+        super().__init__(plot)
+        self._y = [sum(self.plot.y()[:i]) for i, v in enumerate(self.plot.y())]
+
+    def y(self):
+        return self._y
+
+
 class Average(Modifier):
     def __init__(self, window, plot):
         super().__init__(plot)

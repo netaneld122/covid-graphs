@@ -2,6 +2,7 @@ from datetime import datetime
 
 from .csv_column_plot import CsvColumnPlot
 from .modifiers import Multiply, Average, OnlyFromDate, Group, DeriveToDays, SeparateYAxis, QuantifyLabel, ToRatio, Pow
+from .modifiers import Cumulate
 from .plot_viewer import PlotViewer
 from .plot_utils import normalize_plots_to_date
 
@@ -182,7 +183,51 @@ def r():
     viewer.show(False)
 
 
+def twenties_deaths():
+    viewer = PlotViewer()
+
+    viewer.add_plot(QuantifyLabel('({:0.0f})', CsvColumnPlot(
+            path='deaths_ages_dists.csv',
+            should_skip_first_line=True,
+            column='20-29',
+            label='20-29 Deaths')))
+
+    viewer.add_plot(QuantifyLabel('({:0.2f}%)', Multiply(100 / get_population()['20-29'], CsvColumnPlot(
+            path='vaccinated_by_age.csv',
+            column='20-29 first dose',
+            label='Vaccinated 20-29'))))
+
+    # Apply global modifiers
+    viewer.plots = [
+        OnlyFromDate(datetime(2021, 5, 10), plot) for plot in viewer.plots
+    ]
+
+    viewer.show(False)
+
+
+def ages():
+    viewer = PlotViewer()
+
+    # Age groups
+    ages = ('10-19', '20-29', '30-39', '40-49', '50-59', '60+')
+    age_plots = create_age_plots(ages)
+    age_plots = post_process_age_plots(ages, age_plots,
+                                       should_group=False,
+                                       should_normalize=True,
+                                       multiply=1)
+    viewer.add_plots(age_plots)
+
+    # Apply global modifiers
+    viewer.plots = [
+        OnlyFromDate(datetime(2021, 8, 9), plot) for plot in viewer.plots
+    ]
+
+    viewer.show(False)
+
+
 if __name__ == '__main__':
-    # main()
-    # vaccinated()
-    r()
+    #main()
+    #vaccinated()
+    #r()
+    #twenties_deaths()
+    ages()
